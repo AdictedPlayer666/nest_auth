@@ -5,6 +5,8 @@ import { JwtAuthService } from './auth.service';
 import { DatabaseModule } from './database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './database/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
+
 
 @Module({
   imports: [

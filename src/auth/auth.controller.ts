@@ -2,8 +2,9 @@ import { Controller, Post, Body, UsePipes, ValidationPipe, UnauthorizedException
 import { JwtAuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { BadRequestException } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('auth_user')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: JwtAuthService) {}

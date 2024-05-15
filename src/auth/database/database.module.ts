@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './user.entity';
+import { SecretKey } from './secret-key.entity';
+
 
   @Module({
     imports: [
@@ -14,7 +16,7 @@ import { Users } from './user.entity';
         entities: [__dirname + '/../**/*.entity{.js,.ts}'], // Правильный синтаксис для автоматического обнаружения Entity-классов
         synchronize: false, // Установите false в продакшене
       }),
-      TypeOrmModule.forFeature([Users]),
+      TypeOrmModule.forFeature([Users, SecretKey]),
     ],
   })
   export class DatabaseModule {}
