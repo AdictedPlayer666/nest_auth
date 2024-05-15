@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
 import { Card } from './card.entity';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,7 +9,7 @@ export class Comment {
 
   @Column()
   text: string;
+  
 
-  @ManyToOne(() => Card, card => card.comments)
   card: Card;
 }

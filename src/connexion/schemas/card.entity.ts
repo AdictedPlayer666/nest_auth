@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne} from 'typeorm';
 import { BoardColumn } from './column.entity'; 
 import { Comment } from './comment.entity';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,10 +13,6 @@ export class Card {
 
   @Column()
   description: string;
-
-  @ManyToOne(() => BoardColumn, boardColumn => boardColumn.cards)
-  column: BoardColumn;
-
-  @OneToMany(() => Comment, comment => comment.card)
+  @OneToOne(() => Comment)
   comments: Comment[];
 }
