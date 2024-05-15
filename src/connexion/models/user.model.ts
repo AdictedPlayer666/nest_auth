@@ -1,15 +1,15 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { BoardColumn } from '../schemas/column.entity';
 
-@Schema()
-export class User extends Document {
-  @Prop()
+export class UserModel {
+  id: number;
   name: string;
-
-  @Prop()
   email: string;
+  columns: BoardColumn[];
 
-  // Другие поля и методы
+  constructor(id: number, name: string, email: string, columns: BoardColumn[]) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.columns = columns;
+  }
 }
-
-export const UserModel = SchemaFactory.createForClass(User);
