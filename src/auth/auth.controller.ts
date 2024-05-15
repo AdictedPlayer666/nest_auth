@@ -24,6 +24,8 @@ export class AuthController {
    
     throw new UnauthorizedException('Invalid credentials');
   }
+
+  @ApiTags('register_user')
   @Post('register')
   @UsePipes(new ValidationPipe())
   async register(@Body() userDto: AuthDto) 

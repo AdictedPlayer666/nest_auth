@@ -1,16 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { BoardColumn } from './column.entity'; // Переименованный класс
+import { BoardColumn } from './column.entity'; 
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: uuidv4;
 
   @Column()
   name: string;
 
   @Column()
-  email: string;
+  password: string;
 
   @OneToMany(() => BoardColumn, boardColumn => boardColumn.user)
   columns: BoardColumn[];
