@@ -29,8 +29,6 @@ async validateUser(username: string, password: string): Promise<boolean> {
   }
 
 
-
-
   async createUser(userDto: AuthDto): Promise<any> {
     try {
       const newUser = await this.userRepository.create(userDto);

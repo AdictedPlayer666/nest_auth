@@ -6,7 +6,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth_user')
 @Controller('auth')
-export class AuthController {
+export class AuthController { 
   constructor(private readonly authService: JwtAuthService) {}
 
   @Post('login')
@@ -37,7 +37,7 @@ export class AuthController {
       const newUser = await this.authService.createUser(userDto); 
       if(newUser)
         {
-          const token = await this.authService.signPayload({ username: userDto.username });
+          const token = await this.authService.signPayload({ username: userDto.username, password: userDto.password });
           return { token };
         }
     }
