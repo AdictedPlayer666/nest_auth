@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthService } from './auth.service';
 import { DatabaseModule } from './database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from './database/user.entity';
+import { Users } from './database/schema/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import jwt_key from '../config/jwt_key'

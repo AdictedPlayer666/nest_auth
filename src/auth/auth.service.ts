@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { Users } from './database/user.entity';
+import { Users } from './database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthDto } from './dto/auth.dto';
 
