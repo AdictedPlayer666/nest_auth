@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CrudModule } from './crud/crud.module';
 
+
+
   
 @Module({
   
@@ -12,7 +14,6 @@ import { CrudModule } from './crud/crud.module';
   imports: [
     AuthModule,
     CrudModule,
-
   ],
 })
 export class AppModule {}
