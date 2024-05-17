@@ -4,7 +4,7 @@ import { UserModule } from './user/user.module';
 @Module({
     
 
-  imports: [UserModule, UserModule]
+  imports: [UserModule]
 })
 export class CrudModule {
 
