@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { Users } from './database/schema/user.entity';
+import { Users } from '../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthDto } from './dto/auth.dto';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class JwtAuthService {
@@ -29,7 +29,7 @@ async validateUser(username: string, password: string): Promise<boolean> {
   }
 
 
-  async createUser(userDto: AuthDto): Promise<any> {
+  async createUser(userDto: UserDto): Promise<any> {
     try {
       const newUser = await this.userRepository.create(userDto);
       await this.userRepository.save(newUser);

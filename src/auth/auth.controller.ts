@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UsePipes, ValidationPipe, UnauthorizedException } from '@nestjs/common';
 import { JwtAuthService } from './auth.service';
-import { AuthDto } from './dto/auth.dto';
+import { UserDto } from './dto/user.dto';
 import { BadRequestException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -11,7 +11,7 @@ export class AuthController {
 
   @Post('login')
   @UsePipes(new ValidationPipe())
-  async login(@Body() authDto: AuthDto) {
+  async login(@Body() authDto: UserDto) {
    
     const isValidUser = await this.authService.validateUser(authDto.username, authDto.password);
     
@@ -28,7 +28,7 @@ export class AuthController {
   @ApiTags('register_user')
   @Post('register')
   @UsePipes(new ValidationPipe())
-  async register(@Body() userDto: AuthDto) 
+  async register(@Body() userDto: UserDto) 
   {
       const userExists = await this.authService.validateUser(userDto.username, userDto.password);
   
