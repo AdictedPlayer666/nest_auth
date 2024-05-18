@@ -44,4 +44,9 @@ export class UserService {
     return JSON.stringify(columnEx);
   }
 
+  async deleteColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
+    const deletedColumn = await this.columnRepository.delete({ user_id, column_name });
+    return !!deletedColumn.affected;
+}
+
 }

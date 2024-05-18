@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Header, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Header, UseGuards, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { IdDto } from './dto/id.dto';
@@ -8,7 +8,10 @@ import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
 import { ColumnDto } from './dto/column.dto';
-import { getDataGuard } from './user.guard';
+import { getDataGuard } from './guards/user.guard';
+import { Col } from 'sequelize/types/utils';
+import { ColumnGuard } from './guards/column.guard';
+
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
@@ -27,7 +30,7 @@ export class UserController {
           return { user_data };
         }
 
-        throw new BadGatewayException('User already exists');
+        throw new BadRequestException("Bad request");
         
     }
 
@@ -43,7 +46,21 @@ export class UserController {
       return { column_data }
     }
 
-    return 'Oh no'
+    throw new BadRequestException("Column not found");
 
   }
+
+    @ApiTags('delete_column')
+    @Delete(':id/columns/:column_name')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async DeleteColumn(@Param() colDto: ColumnDto)
+    {
+      const deleted = await this.userService.deleteColumn(colDto.id, colDto.column_name);
+      if (deleted) {
+        return { message: 'Column deleted successfully' };
+      }
+      throw new BadRequestException("Delete error");
+    }
+  
 }
