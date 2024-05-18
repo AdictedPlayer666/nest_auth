@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
-import { ColumnDto } from './dto/cloumn.dto';
+import { ColumnDto } from './dto/column.dto';
 import { getDataGuard } from './user.guard';
 @Controller('user')
 export class UserController {
