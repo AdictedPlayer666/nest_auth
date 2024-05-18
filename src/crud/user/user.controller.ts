@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Header } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Header, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { IdDto } from './dto/id.dto';
@@ -8,12 +8,14 @@ import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
 import { ColumnDto } from './dto/cloumn.dto';
+import { getDataGuard } from './user.guard';
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @ApiTags('get_user')
     @Get(':id')
+    @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async id_get(@Param() indDto: IdDto) {
       
@@ -31,6 +33,7 @@ export class UserController {
 
     @ApiTags('get_column')
     @Get(':id/columns/:column_name')
+    @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
 
