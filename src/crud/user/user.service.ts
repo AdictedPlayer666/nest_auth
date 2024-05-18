@@ -3,12 +3,14 @@ import { Users } from '../../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Columns } from 'src/database/schema/column.entity';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(Users) 
-    private readonly userRepository: Repository<Users>
+    private readonly userRepository: Repository<Users>,
+    @InjectRepository(Columns)
+    private readonly columnRepository: Repository<Columns>
   ) {}
 
 
@@ -31,4 +33,15 @@ export class UserService {
     }
 
   }
+
+  async ExistedColumnData(user_id: uuidv4, column_name: string): Promise<Boolean> {
+    const columnEx = await this.columnRepository.findOne({where: {user_id, column_name}});
+    return !!columnEx;
+  }
+
+  async GetColumnData(user_id: uuidv4, column_name: string): Promise<string>{
+    const columnEx = await this.columnRepository.findOne({where: {user_id, column_name}});
+    return JSON.stringify(columnEx);
+  }
+
 }
