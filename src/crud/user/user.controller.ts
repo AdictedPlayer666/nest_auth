@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Header, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { IdDto } from './dto/id.dto';
@@ -11,6 +11,8 @@ import { ColumnDto } from './dto/column.dto';
 import { getDataGuard } from './guards/user.guard';
 import { Col } from 'sequelize/types/utils';
 import { ColumnGuard } from './guards/column.guard';
+import { UUID } from 'crypto';
+import { ColumnCreateDto } from './dto/columnCreate.dto';
 
 @Controller('user')
 export class UserController {
@@ -62,5 +64,17 @@ export class UserController {
       }
       throw new BadRequestException("Delete error");
     }
-  
+
+    
+    @ApiTags('create_column')
+    @Post(':id/columns/add')  
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async createColumn(@Param('id') id: ColumnCreateDto["id"], @Body('column_name') column_name: ColumnCreateDto["column_name"]) {  
+      const created = await this.userService.createColumn(id, column_name);  
+      if (created) {
+        return { message: 'Column created successfully' };
+      }
+      throw new BadRequestException("Create error");
+    }
 }

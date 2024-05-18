@@ -47,6 +47,13 @@ export class UserService {
   async deleteColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
     const deletedColumn = await this.columnRepository.delete({ user_id, column_name });
     return !!deletedColumn.affected;
-}
+  }
+  
+  async createColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
+    const newColumn = this.columnRepository.create({ user_id, column_name });
+    const createdColumn = await this.columnRepository.save(newColumn);
+    return !!createdColumn;
+  }
+
 
 }
