@@ -1,4 +1,4 @@
-import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import { IdDto } from './dto/id.dto';
@@ -42,15 +42,15 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
 
-    const ExistColumn = await this.userService.ExistedColumnData(colDto.id, colDto.column_name);
-    if(ExistColumn){
-      const column_data = await this.userService.GetColumnData(colDto.id, colDto.column_name);
-      return { column_data }
+      const ExistColumn = await this.userService.ExistedColumnData(colDto.id, colDto.column_name);
+      if(ExistColumn){
+        const column_data = await this.userService.GetColumnData(colDto.id, colDto.column_name);
+        return { column_data }
+      }
+
+      throw new BadRequestException("Column not found");
+
     }
-
-    throw new BadRequestException("Column not found");
-
-  }
 
     @ApiTags('delete_column')
     @Delete(':id/columns/:column_name')
@@ -58,11 +58,16 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async DeleteColumn(@Param() colDto: ColumnDto)
     {
-      const deleted = await this.userService.deleteColumn(colDto.id, colDto.column_name);
-      if (deleted) {
-        return { message: 'Column deleted successfully' };
+      const ExistColumn = await this.userService.ExistedColumnData(colDto.id, colDto.column_name);
+      if (ExistColumn) {
+        const deleted = await this.userService.deleteColumn(colDto.id, colDto.column_name);
+        if(deleted)
+          {
+            return { message: 'Column deleted successfully' };
+          }
+          throw new BadRequestException("Delete error");
       }
-      throw new BadRequestException("Delete error");
+      throw new NotFoundException("Column not found");
     }
 
     
@@ -70,11 +75,13 @@ export class UserController {
     @Post(':id/columns/add')  
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
-    async createColumn(@Param('id') id: ColumnCreateDto["id"], @Body('column_name') column_name: ColumnCreateDto["column_name"]) {  
+    async createColumn(@Param('id') id: ColumnCreateDto["id"], @Body('column_name') column_name: ColumnCreateDto["column_name"]) {
       const created = await this.userService.createColumn(id, column_name);  
       if (created) {
         return { message: 'Column created successfully' };
       }
       throw new BadRequestException("Create error");
     }
+
+
 }
