@@ -83,5 +83,15 @@ export class UserController {
       throw new BadRequestException("Create error");
     }
 
-
+    @ApiTags('create_card')
+    @Post(':id/columns/:column_name/cards/add')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async createCards(@Param('id') id: ColumnCreateDto["id"], @Param('column_name') column_name: ColumnCreateDto["column_name"] , @Body('card_name') card_name: string ) {
+      const created = await this.userService.createCard(id, card_name);  
+      if (created) {
+        return { message: 'Card created successfully' };
+      }
+      throw new BadRequestException("Create error");
+    }
 }

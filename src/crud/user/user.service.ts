@@ -60,4 +60,10 @@ export class UserService {
   }
 
 
+  async createCard(user_id: uuidv4, card_name: string): Promise<boolean> {
+    const newCard = this.cardRepository.create({ user_id, card_name });
+    const createdCard = await this.cardRepository.save(newCard);
+    return !!createdCard;
+  }
+
 }
