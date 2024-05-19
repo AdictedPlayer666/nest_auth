@@ -8,11 +8,14 @@ export class CommnetDto {
   id: uuidv4;
   
   @IsString()
+  @IsNotEmpty()
   column_name: string;
 
   @IsString()
+  @IsNotEmpty()
   card_name: string;
 
   @IsString()
+  @IsNotEmpty()
   comment_name: string;
 }

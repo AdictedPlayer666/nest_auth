@@ -14,6 +14,7 @@ import { ColumnGuard } from './guards/column.guard';
 import { UUID } from 'crypto';
 import { CardDto } from './dto/card.dto';
 import { CommnetDto } from './dto/comment.dto';
+import { Not } from 'typeorm';
 
 
 @Controller('user')
@@ -131,15 +132,15 @@ export class UserController {
         throw new NotFoundException("card not founded");
     }
 
-    @ApiTags('create_commnet')
+    @ApiTags('create_comment')
     @Post(':id/columns/:column_name/cards/:card_name/comments/add')
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async addComment(
       @Param('id') id: CommnetDto["id"],
-      @Param("column_name") column_name: CommnetDto["column_name"],
-      @Param("card_name") card_name: CommnetDto["card_name"],
-      @Body("comment_name") comment_name: CommnetDto["comment_name"] ){
+      @Param('column_name') column_name: CommnetDto["column_name"],
+      @Param('card_name') card_name: CommnetDto["card_name"],
+      @Body('comment_name') comment_name: CommnetDto["comment_name"] ){
 
         const created = await this.userService.createComment(id, column_name, card_name, comment_name);
         if (created) {
@@ -148,5 +149,38 @@ export class UserController {
         throw new BadRequestException("Create error");
     }
 
+    @ApiTags('get_comment')
+    @Get(':id/columns/:column_name/cards/:card_name/comments/:comment_name')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async getComment(@Param() comDto: CommnetDto){
+      const commentExisted = await this.userService.commentExisted(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
+
+      if(commentExisted)
+        {
+          const commnet = await this.userService.getComment(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
+          return { commnet }
+        }
+        throw new NotFoundException("comment not found");
+    }
+
+    @ApiTags('delete_comment')
+    @Delete(':id/columns/:column_name/cards/:card_name/comments/:comment_name')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async deleteComment(@Param() comDto: CommnetDto)
+    {
+      const commentExisted = await this.userService.commentExisted(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
+      if(commentExisted)
+        {
+          const deleted = await this.userService.deleteCommentq(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
+          if(deleted)
+          {
+            return { message: 'Column deleted successfully' };
+          }
+          throw new BadRequestException("Delete error");
+        }
+        throw new NotFoundException("comment not found");
+    }
 
 }

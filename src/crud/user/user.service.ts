@@ -109,19 +109,43 @@ export class UserService {
     return !!comments; 
   }
 
-  async createComment(user_id: uuidv4, card_name: string, column_name: string, comment_name: string): Promise<boolean> {
-    
-    
+
+  async getComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<string> {
+      if (!this.cardRepository) {
+        throw new Error('cardRepository is not defined or is undefined');
+      }
+
+      const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
+      const column_id = column?.column_id;
+
+      const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
+      const card_id = card?.card_id;
+
+      const comments = await this.commentRepository.findOne({ where: { user_id, column_id, card_id, comment_name } });
+      return JSON.stringify(comments);
+  }
+
+  async createComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<boolean> {
+
     const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
     const column_id = column?.column_id;
 
     const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
     const card_id = card?.card_id;
+    if(!column_id) return false;
+    const newComment = this.commentRepository.create({ user_id, card_id, column_id, comment_name });
+    const createdComment = await this.commentRepository.save(newComment);
 
-    const newComment = this.commentRepository.create({ user_id, column_id, card_id, comment_name });
-    const createdCard = await this.cardRepository.save(newComment);
+    return !!createdComment;
+}
 
-    return !!createdCard;
+    async deleteCommentq(user_id: uuidv4,column_name: string, card_name: string,  comment_name: string): Promise<boolean> {
+      const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
+      const column_id = column?.column_id;
+      const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
+      const card_id = card?.card_id;
+      const deleted = await this.commentRepository.delete({ user_id, column_id, card_id, comment_name });
+      return !!deleted.affected;
   }
 
 }
