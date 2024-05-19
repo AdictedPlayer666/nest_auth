@@ -60,8 +60,10 @@ export class UserService {
   }
 
 
-  async createCard(user_id: uuidv4, card_name: string): Promise<boolean> {
-    const newCard = this.cardRepository.create({ user_id, card_name });
+  async createCard(user_id: uuidv4, card_name: string, column_name: string): Promise<boolean> {
+    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
+    const column_id = column?.column_id;
+    const newCard = this.cardRepository.create({ user_id, card_name, column_id });
     const createdCard = await this.cardRepository.save(newCard);
     return !!createdCard;
   }
