@@ -12,7 +12,8 @@ import { getDataGuard } from './guards/user.guard';
 import { Col } from 'sequelize/types/utils';
 import { ColumnGuard } from './guards/column.guard';
 import { UUID } from 'crypto';
-import { ColumnCreateDto } from './dto/columnCreate.dto';
+import { CardDto } from './dto/card.dto';
+
 
 @Controller('user')
 export class UserController {
@@ -75,7 +76,7 @@ export class UserController {
     @Post(':id/columns/add')  
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
-    async createColumn(@Param('id') id: ColumnCreateDto["id"], @Body('column_name') column_name: ColumnCreateDto["column_name"]) {
+    async createColumn(@Param('id') id: ColumnDto["id"], @Body('column_name') column_name: ColumnDto["column_name"]) {
       const created = await this.userService.createColumn(id, column_name);  
       if (created) {
         return { message: 'Column created successfully' };
@@ -87,11 +88,46 @@ export class UserController {
     @Post(':id/columns/:column_name/cards/add')
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
-    async createCards(@Param('id') id: ColumnCreateDto["id"], @Param('column_name') column_name: ColumnCreateDto["column_name"] , @Body('card_name') card_name: string ) {
+    async createCards(@Param('id') id: ColumnDto["id"], @Param('column_name') column_name: ColumnDto["column_name"] , @Body('card_name') card_name: string ) {
       const created = await this.userService.createCard(id, card_name, column_name);  
       if (created) {
         return { message: 'Card created successfully' };
       }
       throw new BadRequestException("Create error");
     }
+
+
+    @ApiTags('get_card')
+    @Get(':id/columns/:column_name/cards/:card_name')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async getCards(@Param() cardDto: CardDto) {
+    const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
+      if(cardExisted)
+        {
+          const card = await this.userService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
+          return { card }
+        }
+        throw new NotFoundException("card not founded");
+    }
+
+
+    @ApiTags('delete_card')
+    @Delete(':id/columns/:column_name/cards/:card_name')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async deleteCard(@Param() cardDto: CardDto) {
+    const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
+      if(cardExisted)
+        {
+          const deleteCard = await this.userService.deleteCard(cardDto.id, cardDto.column_name, cardDto.card_name);
+          if(deleteCard)
+            {
+              return { message: 'Column deleted successfully' };
+            }
+            throw new BadRequestException("Card was not deleted");
+        }
+        throw new NotFoundException("card not founded");
+    }
+
 }
