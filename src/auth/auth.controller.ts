@@ -7,7 +7,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @ApiTags('auth_user')
 @Controller('auth')
 export class AuthController { 
-  constructor(private readonly authService: JwtAuthService) {}
+  constructor(
+    private readonly authService: JwtAuthService,
+  ) {}
   
   @ApiTags('login_user')
   @Post('login')

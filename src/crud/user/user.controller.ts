@@ -19,7 +19,10 @@ import { Not } from 'typeorm';
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+      private readonly userService: UserService,
+
+    ) {}
 
     @ApiTags('get_user')
     @Get(':id')
