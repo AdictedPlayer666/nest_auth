@@ -13,6 +13,7 @@ import { Col } from 'sequelize/types/utils';
 import { ColumnGuard } from './guards/column.guard';
 import { UUID } from 'crypto';
 import { CardDto } from './dto/card.dto';
+import { CommnetDto } from './dto/comment.dto';
 
 
 @Controller('user')
@@ -102,7 +103,7 @@ export class UserController {
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getCards(@Param() cardDto: CardDto) {
-    const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
+      const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
       if(cardExisted)
         {
           const card = await this.userService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
@@ -117,7 +118,7 @@ export class UserController {
     @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteCard(@Param() cardDto: CardDto) {
-    const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
+      const cardExisted = await this.userService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
       if(cardExisted)
         {
           const deleteCard = await this.userService.deleteCard(cardDto.id, cardDto.column_name, cardDto.card_name);
@@ -129,5 +130,23 @@ export class UserController {
         }
         throw new NotFoundException("card not founded");
     }
+
+    @ApiTags('create_commnet')
+    @Post(':id/columns/:column_name/cards/:card_name/comments/add')
+    @UseGuards(ColumnGuard)
+    @UsePipes(new ValidationPipe())
+    async addComment(
+      @Param('id') id: CommnetDto["id"],
+      @Param("column_name") column_name: CommnetDto["column_name"],
+      @Param("card_name") card_name: CommnetDto["card_name"],
+      @Body("comment_name") comment_name: CommnetDto["comment_name"] ){
+
+        const created = await this.userService.createComment(id, column_name, card_name, comment_name);
+        if (created) {
+          return { message: 'Comment created successfully' };
+        }
+        throw new BadRequestException("Create error");
+    }
+
 
 }
