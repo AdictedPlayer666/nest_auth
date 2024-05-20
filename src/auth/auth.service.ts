@@ -4,38 +4,37 @@ import { Repository } from 'typeorm';
 import { Users } from '../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from './dto/user.dto';
-
+import { UserService } from 'src/crud/user/user.service';
 @Injectable()
 export class JwtAuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(Users)  
-    private readonly userRepository: Repository<Users>
+    private readonly userRepository: Repository<Users>,
+    private readonly UserService: UserService,
   ) {}
 
 
-async validateUser(username: string, password: string): Promise<boolean> {
-  if (!this.userRepository) {
-    throw new Error('userRepository is not defined or is undefined');
-  }
 
-  const user = await this.userRepository.findOne({ where: { username, password } });
-  return !!user; 
-}
+  async validateToken(token: string): Promise<boolean> {
+
+    try {
+      const decoded = this.jwtService.verify(token);
+      const user = await this.userRepository.findOne({ where: { username: decoded.username } });
+
+      if (!user) {
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
 
 
   async signPayload(payload: any): Promise<string> {
     return this.jwtService.sign(payload);
   }
-
-
-  async createUser(userDto: UserDto): Promise<any> {
-    try {
-      const newUser = await this.userRepository.create(userDto);
-      await this.userRepository.save(newUser);
-      return newUser;
-    } catch (error) {
-      throw new Error('User registration failed: ' + error.message);
-    }
-  }
+  
 }
