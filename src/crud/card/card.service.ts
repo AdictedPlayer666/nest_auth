@@ -21,6 +21,12 @@ export class CardService {
     ) {}
 
     async createCard(user_id: uuidv4, card_name: string, column_name: string): Promise<boolean> {
+        
+        const cardExisted = await this.cardExisted(user_id, column_name, card_name);
+        if(cardExisted){
+            throw new BadRequestException("Card arleady existed!");
+        }
+
         const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
         const column_id = column?.column_id;
         const newCard = this.cardRepository.create({ user_id, card_name, column_id });
@@ -28,6 +34,13 @@ export class CardService {
         return !!createdCard;
     }
     async getCard(user_id: uuidv4, column_name: string, card_name: string): Promise<string> {
+
+        const cardExisted = await this.cardExisted(user_id, column_name, card_name);
+        if(!cardExisted){
+            throw new BadRequestException("Card not founded");
+        }
+
+
         const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
         const column_id = column?.column_id;
         const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });

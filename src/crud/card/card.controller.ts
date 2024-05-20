@@ -37,13 +37,8 @@ export class CardController {
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getCards(@Param() cardDto: CardDto) {
-      const cardExisted = await this.cardService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
-      if(cardExisted)
-        {
-          const card = await this.cardService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
-          return { card }
-        }
-        throw new NotFoundException("card not founded");
+      const card = await this.cardService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
+      return { card };
     }
 
 
