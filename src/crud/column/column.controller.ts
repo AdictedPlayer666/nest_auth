@@ -6,13 +6,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
-import { ColumnDto } from '../user/dto/column.dto';
-import { getDataGuard } from '../user/guards/user.guard';
-import { Col } from 'sequelize/types/utils';
-import { ColumnGuard } from '../user/guards/column.guard';
+import { ColumnDto } from './dto/column.dto';
+import { Col } from 'sequelize/types/utils';;
 import { UUID } from 'crypto';
-import { CardDto } from '../user/dto/card.dto';
-import { CommnetDto } from '../user/dto/comment.dto';
+import { CardDto } from '../card/dto/card.dto';
+import { CommnetDto } from '../comments/dto/comment.dto';
 import { Not } from 'typeorm';
 import { ColumnService } from './column.service';
 
@@ -26,7 +24,7 @@ export class ColumnController {
 
     @ApiTags('get_column')
     @Get(':column_name')
-    @UseGuards(getDataGuard)
+    // @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
 
@@ -42,7 +40,7 @@ export class ColumnController {
 
     @ApiTags('delete_column')
     @Delete(':column_name')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async DeleteColumn(@Param() colDto: ColumnDto)
     {
@@ -61,7 +59,7 @@ export class ColumnController {
     
     @ApiTags('create_column')
     @Post('add')  
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async createColumn(@Param('id') id: ColumnDto["id"], @Body('column_name') column_name: ColumnDto["column_name"]) {
       const created = await this.ColumnService.createColumn(id, column_name);  

@@ -6,13 +6,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
-import { ColumnDto } from '../user/dto/column.dto';
-import { getDataGuard } from '../user/guards/user.guard';
+import { ColumnDto } from '../column/dto/column.dto';
 import { Col } from 'sequelize/types/utils';
-import { ColumnGuard } from '../user/guards/column.guard';
 import { UUID } from 'crypto';
-import { CardDto } from '../user/dto/card.dto';
-import { CommnetDto } from '../user/dto/comment.dto';
+import { CardDto } from './dto/card.dto';
+import { CommnetDto } from '../comments/dto/comment.dto';
 import { Not } from 'typeorm';
 import { CardService } from './card.service';
 
@@ -23,7 +21,7 @@ export class CardController {
     ) {}
     @ApiTags('create_card')
     @Post('add')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async createCards(@Param('id') id: ColumnDto["id"], @Param('column_name') column_name: ColumnDto["column_name"] , @Body('card_name') card_name: string ) {
       const created = await this.cardService.createCard(id, card_name, column_name);  
@@ -36,7 +34,7 @@ export class CardController {
 
     @ApiTags('get_card')
     @Get(':card_name')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getCards(@Param() cardDto: CardDto) {
       const cardExisted = await this.cardService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
@@ -51,7 +49,7 @@ export class CardController {
 
     @ApiTags('delete_card')
     @Delete(':card_name')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteCard(@Param() cardDto: CardDto) {
       const cardExisted = await this.cardService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);

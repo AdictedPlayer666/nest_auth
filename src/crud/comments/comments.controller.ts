@@ -6,13 +6,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
-import { ColumnDto } from '../user/dto/column.dto';
-import { getDataGuard } from '../user/guards/user.guard';
+import { ColumnDto } from '../column/dto/column.dto';
 import { Col } from 'sequelize/types/utils';
-import { ColumnGuard } from '../user/guards/column.guard';
 import { UUID } from 'crypto';
-import { CardDto } from '../user/dto/card.dto';
-import { CommnetDto } from '../user/dto/comment.dto';
+import { CardDto } from '../card/dto/card.dto';
+import { CommnetDto } from './dto/comment.dto';
 import { Not } from 'typeorm';
 import { CommentsService } from './comments.service';
 
@@ -24,7 +22,7 @@ export class CommentsController {
 
     @ApiTags('create_comment')
     @Post('add')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async addComment(
       @Param('id') id: CommnetDto["id"],
@@ -41,7 +39,7 @@ export class CommentsController {
 
     @ApiTags('get_comment')
     @Get(':comment_name')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getComment(@Param() comDto: CommnetDto){
       const commentExisted = await this.commentService.commentExisted(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
@@ -56,7 +54,7 @@ export class CommentsController {
 
     @ApiTags('delete_comment')
     @Delete('comment_name')
-    @UseGuards(ColumnGuard)
+    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteComment(@Param() comDto: CommnetDto)
     {

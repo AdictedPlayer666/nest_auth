@@ -7,13 +7,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { col } from 'sequelize';
-import { ColumnDto } from './dto/column.dto';
-import { getDataGuard } from './guards/user.guard';
+import { ColumnDto } from '../column/dto/column.dto';
 import { Col } from 'sequelize/types/utils';
-import { ColumnGuard } from './guards/column.guard';
 import { UUID } from 'crypto';
-import { CardDto } from './dto/card.dto';
-import { CommnetDto } from './dto/comment.dto';
+import { CardDto } from '../card/dto/card.dto';
+import { CommnetDto } from '../comments/dto/comment.dto';
 import { Not } from 'typeorm';
 
 
@@ -26,7 +24,7 @@ export class UserController {
 
     @ApiTags('get_user')
     @Get(':id')
-    @UseGuards(getDataGuard)
+    // @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async id_get(@Param() indDto: IdDto) {
       
@@ -41,6 +39,5 @@ export class UserController {
         throw new BadRequestException("Bad request");
         
     }
-
 
 }
