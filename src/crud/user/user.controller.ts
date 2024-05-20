@@ -42,10 +42,5 @@ export class UserController {
         
     }
 
-    
-
-    
-
-    
 
 }
