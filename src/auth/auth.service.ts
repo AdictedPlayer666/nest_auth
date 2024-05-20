@@ -5,6 +5,7 @@ import { Users } from '../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from './dto/user.dto';
 import { UserService } from 'src/crud/user/user.service';
+
 @Injectable()
 export class JwtAuthService {
   constructor(
@@ -15,7 +16,14 @@ export class JwtAuthService {
   ) {}
 
 
-
+  async validateUser(authdto: UserDto)
+  {
+    const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password} });
+    if (!user) {
+      return false;
+    }
+    return true;
+  }
   async validateToken(token: string): Promise<boolean> {
 
     try {

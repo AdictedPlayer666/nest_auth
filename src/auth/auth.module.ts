@@ -12,7 +12,7 @@ import { UserService } from 'src/crud/user/user.service';
 import { Columns } from 'src/database/schema/column.entity';
 import { Comments } from 'src/database/schema/comment.entity';
 import { Cards } from 'src/database/schema/card.entity';
-
+import { JwtStrategy } from './auth.strategy';
 
 @Module({
   imports: [
@@ -26,6 +26,6 @@ import { Cards } from 'src/database/schema/card.entity';
   ],
   controllers: [AuthController],
   exports: [JwtAuthService],
-  providers: [JwtAuthService, UserService]
+  providers: [JwtAuthService, UserService, JwtStrategy]
 })
 export class AuthModule {}

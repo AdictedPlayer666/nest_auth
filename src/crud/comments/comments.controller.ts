@@ -13,6 +13,7 @@ import { CardDto } from '../card/dto/card.dto';
 import { CommnetDto } from './dto/comment.dto';
 import { Not } from 'typeorm';
 import { CommentsService } from './comments.service';
+import { CommentCreateGuard } from './guards/comment.guard';
 
 @Controller('user/:id/columns/:column_name/cards/:card_name/comments/')
 export class CommentsController {
@@ -21,6 +22,7 @@ export class CommentsController {
     ) {}
 
     @ApiTags('create_comment')
+    @UseGuards(CommentCreateGuard)
     @Post('add')
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
