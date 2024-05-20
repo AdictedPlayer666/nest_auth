@@ -51,52 +51,6 @@ export class UserService {
     }
   }
 
-  async getCard(user_id: uuidv4, column_name: string, card_name: string): Promise<string> {
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-    const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-    return JSON.stringify(card);
-  }
-
-  async cardExisted(user_id: uuidv4, column_name: string, card_name: string): Promise<boolean> {
-    if (!this.cardRepository) {
-      throw new Error('cardRepository is not defined or is undefined');
-    }
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-    const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-    return !!card; 
-  }
-
-  async ExistedColumnData(user_id: uuidv4, column_name: string): Promise<Boolean> {
-    const columnEx = await this.columnRepository.findOne({where: {user_id, column_name}});
-    return !!columnEx;
-  }
-
-  async GetColumnData(user_id: uuidv4, column_name: string): Promise<string>{
-    const columnEx = await this.columnRepository.findOne({where: {user_id, column_name}});
-    return JSON.stringify(columnEx);
-  }
-
-  async deleteColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
-    const deletedColumn = await this.columnRepository.delete({ user_id, column_name });
-    return !!deletedColumn.affected;
-  }
-
-  async deleteCard(user_id: uuidv4, column_name: string, card_name: string): Promise<boolean> {
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-
-    const deletedColumn = await this.cardRepository.delete({ user_id, column_id, card_name });
-    return !!deletedColumn.affected;
-  }
-  
-  async createColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
-    const newColumn = this.columnRepository.create({ user_id, column_name });
-    const createdColumn = await this.columnRepository.save(newColumn);
-    return !!createdColumn;
-  }
-
   async ExistedUser(user_id: uuidv4): Promise<boolean> {
     if (!this.userRepository) {
       throw new Error('userRepository is not defined or is undefined');
@@ -104,69 +58,6 @@ export class UserService {
 
     const user = await this.userRepository.findOne({ where: { user_id } });
     return !!user; 
-  }
-
-
-  async createCard(user_id: uuidv4, card_name: string, column_name: string): Promise<boolean> {
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-    const newCard = this.cardRepository.create({ user_id, card_name, column_id });
-    const createdCard = await this.cardRepository.save(newCard);
-    return !!createdCard;
-  }
-
-  async commentExisted(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<boolean> {
-    if (!this.cardRepository) {
-      throw new Error('cardRepository is not defined or is undefined');
-    }
-
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-
-    const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-    const card_id = card?.card_id;
-
-    const comments = await this.commentRepository.findOne({ where: { user_id, column_id, card_id, comment_name } });
-    return !!comments; 
-  }
-
-
-  async getComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<string> {
-      if (!this.cardRepository) {
-        throw new Error('cardRepository is not defined or is undefined');
-      }
-
-      const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-      const column_id = column?.column_id;
-
-      const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-      const card_id = card?.card_id;
-
-      const comments = await this.commentRepository.findOne({ where: { user_id, column_id, card_id, comment_name } });
-      return JSON.stringify(comments);
-  }
-
-  async createComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<boolean> {
-
-    const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-    const column_id = column?.column_id;
-
-    const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-    const card_id = card?.card_id;
-    if(!column_id) return false;
-    const newComment = this.commentRepository.create({ user_id, card_id, column_id, comment_name });
-    const createdComment = await this.commentRepository.save(newComment);
-
-    return !!createdComment;
-}
-
-    async deleteCommentq(user_id: uuidv4,column_name: string, card_name: string,  comment_name: string): Promise<boolean> {
-      const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
-      const column_id = column?.column_id;
-      const card = await this.cardRepository.findOne({ where: { user_id, column_id, card_name} });
-      const card_id = card?.card_id;
-      const deleted = await this.commentRepository.delete({ user_id, column_id, card_id, comment_name });
-      return !!deleted.affected;
   }
 
 }
