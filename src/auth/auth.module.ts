@@ -13,19 +13,22 @@ import { Columns } from 'src/database/schema/column.entity';
 import { Comments } from 'src/database/schema/comment.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { JwtStrategy } from './auth.strategy';
+import { CommentsService } from 'src/crud/comments/comments.service';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: jwt_key().secretKey,
-      signOptions: { expiresIn: '1h' },
+    JwtModule.registerAsync({
+      useFactory: async () => ({
+        secret: jwt_key().secretKey,
+        signOptions: { expiresIn: '1h' },
+      }),
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
     
   ],
   controllers: [AuthController],
-  exports: [JwtAuthService],
-  providers: [JwtAuthService, UserService, JwtStrategy]
+  exports: [JwtAuthService, JwtModule],
+  providers: [JwtAuthService, UserService, JwtStrategy, CommentsService]
 })
 export class AuthModule {}

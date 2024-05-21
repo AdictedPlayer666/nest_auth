@@ -10,7 +10,9 @@ import { Comments } from './schema/comment.entity';
 
   @Module({
     imports: [
-      TypeOrmModule.forRoot(dbConfig),
+      TypeOrmModule.forRootAsync({
+        useFactory: async () => (dbConfig),
+      }),
       TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
     ],
   })

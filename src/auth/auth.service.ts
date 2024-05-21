@@ -15,7 +15,7 @@ export class JwtAuthService {
     private readonly UserService: UserService,
   ) {}
 
-
+  
   async validateUser(authdto: UserDto)
   {
     const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password} });
@@ -25,20 +25,21 @@ export class JwtAuthService {
     return true;
   }
   async validateToken(token: string): Promise<boolean> {
-
     try {
-      const decoded = this.jwtService.verify(token);
+      const decoded = await this.jwtService.verify(token);
       const user = await this.userRepository.findOne({ where: { username: decoded.username } });
 
       if (!user) {
         return false;
+      } else {
+        return true;
       }
-      
-      return true;
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      return false;
     }
   }
+
+  
 
 
   async signPayload(payload: any): Promise<string> {
