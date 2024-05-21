@@ -5,8 +5,6 @@ import { AuthModule } from './auth/auth.module';
 import { CrudModule } from './crud/crud.module';
 
 
-
-  
 @Module({
   
   controllers: [AppController],

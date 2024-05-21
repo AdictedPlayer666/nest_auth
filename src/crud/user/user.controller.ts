@@ -1,19 +1,9 @@
 import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { v4 as uuidv4 } from 'uuid';
 import { IdDto } from './dto/id.dto';
-import { BadGatewayException } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { col } from 'sequelize';
-import { ColumnDto } from '../column/dto/column.dto';
-import { Col } from 'sequelize/types/utils';
-import { UUID } from 'crypto';
-import { CardDto } from '../card/dto/card.dto';
-import { CommnetDto } from '../comments/dto/comment.dto';
-import { Not } from 'typeorm';
-
 
 @Controller('user')
 export class UserController {

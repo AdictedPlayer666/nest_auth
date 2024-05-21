@@ -4,9 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Columns } from 'src/database/schema/column.entity';
-import { Cards } from 'src/database/schema/card.entity';
-import { Comments } from 'src/database/schema/comment.entity';
-import { UserDto } from 'src/auth/dto/user.dto';
 
 @Injectable()
 export class ColumnService {
