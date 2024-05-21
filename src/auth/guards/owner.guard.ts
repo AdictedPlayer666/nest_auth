@@ -1,13 +1,13 @@
 import { Injectable, ExecutionContext, UnauthorizedException, CanActivate, ForbiddenException } from '@nestjs/common';
 import { AuthGuard as NestAuthGuard } from '@nestjs/passport';
 import * as jwt from 'jsonwebtoken';
-import jwt_key from '../../../config/jwt_key'
+import jwt_key from '../../config/jwt_key'
 import { JwtAuthService } from 'src/auth/auth.service';
 import { UUID } from 'crypto';
 import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
-export class CommentCreateGuard implements CanActivate   {
+export class OwnerGuard implements CanActivate   {
 
   constructor(
     private readonly JwtAuthService: JwtAuthService,

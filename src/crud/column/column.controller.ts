@@ -13,7 +13,7 @@ import { CardDto } from '../card/dto/card.dto';
 import { CommnetDto } from '../comments/dto/comment.dto';
 import { Not } from 'typeorm';
 import { ColumnService } from './column.service';
-
+import { OwnerGuard } from 'src/auth/guards/owner.guard';
 
 @Controller('user/:id/columns/')
 export class ColumnController {
@@ -39,6 +39,7 @@ export class ColumnController {
     }
 
     @ApiTags('delete_column')
+    @UseGuards(OwnerGuard)
     @Delete(':column_name')
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
@@ -59,6 +60,7 @@ export class ColumnController {
     
     @ApiTags('create_column')
     @Post('add')  
+    @UseGuards(OwnerGuard)
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async createColumn(@Param('id') id: ColumnDto["id"], @Body('column_name') column_name: ColumnDto["column_name"]) {

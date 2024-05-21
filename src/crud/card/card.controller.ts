@@ -13,7 +13,7 @@ import { CardDto } from './dto/card.dto';
 import { CommnetDto } from '../comments/dto/comment.dto';
 import { Not } from 'typeorm';
 import { CardService } from './card.service';
-
+import { OwnerGuard } from 'src/auth/guards/owner.guard';
 @Controller('user/:id/columns/:column_name/cards/')
 export class CardController {
     constructor(
@@ -21,7 +21,7 @@ export class CardController {
     ) {}
     @ApiTags('create_card')
     @Post('add')
-    // @UseGuards(ColumnGuard)
+    @UseGuards(OwnerGuard)
     @UsePipes(new ValidationPipe())
     async createCards(@Param('id') id: ColumnDto["id"], @Param('column_name') column_name: ColumnDto["column_name"] , @Body('card_name') card_name: string ) {
       const created = await this.cardService.createCard(id, card_name, column_name);  
@@ -43,6 +43,7 @@ export class CardController {
 
 
     @ApiTags('delete_card')
+    @UseGuards(OwnerGuard)
     @Delete(':card_name')
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
