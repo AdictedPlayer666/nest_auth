@@ -43,8 +43,8 @@ export class CardController {
 
 
     @ApiTags('delete_card')
-    @UseGuards(OwnerGuard)
     @Delete(':card_name')
+    @UseGuards(OwnerGuard)
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteCard(@Param() cardDto: CardDto) {

@@ -24,7 +24,6 @@ export class ColumnController {
 
     @ApiTags('get_column')
     @Get(':column_name')
-    // @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
 
