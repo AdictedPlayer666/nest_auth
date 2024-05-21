@@ -17,34 +17,20 @@ export class ColumnController {
     @Get(':column_name')
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
-
-      const ExistColumn = await this.ColumnService.ExistedColumnData(colDto.id, colDto.column_name);
-      if(ExistColumn){
-        const column_data = await this.ColumnService.GetColumnData(colDto.id, colDto.column_name);
-        return { column_data }
-      }
-
-      throw new BadRequestException("Column not found");
+      
+      const column_data = await this.ColumnService.GetColumnData(colDto);
+      return { column_data }
 
     }
 
     @ApiTags('delete_column')
     @UseGuards(OwnerGuard)
     @Delete(':column_name')
-    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async DeleteColumn(@Param() colDto: ColumnDto)
     {
-      const ExistColumn = await this.ColumnService.ExistedColumnData(colDto.id, colDto.column_name);
-      if (ExistColumn) {
-        const deleted = await this.ColumnService.deleteColumn(colDto.id, colDto.column_name);
-        if(deleted)
-          {
-            return { message: 'Column deleted successfully' };
-          }
-          throw new BadRequestException("Delete error");
-      }
-      throw new NotFoundException("Column not found");
+      return await this.ColumnService.deleteColumn(colDto);
+
     }
 
     
