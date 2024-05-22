@@ -14,19 +14,11 @@ export class UserController {
 
     @ApiTags('get_user')
     @Get(':id')
-    // @UseGuards(getDataGuard)
     @UsePipes(new ValidationPipe())
     async id_get(@Param() indDto: IdDto) {
       
-      const exist_user = await this.userService.ExistedUser(indDto.id);
-
-      if(exist_user)
-        {
-          const user_data = await this.userService.getUser(indDto.id);
-          return { user_data };
-        }
-
-        throw new BadRequestException("Bad request");
+      const user_data = await this.userService.getUser(indDto.id);
+      return { user_data };
         
     }
 

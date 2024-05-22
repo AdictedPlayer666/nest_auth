@@ -35,33 +35,20 @@ export class CommentsController {
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getComment(@Param() comDto: CommnetDto){
-      const commentExisted = await this.commentService.commentExisted(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
-
-      if(commentExisted)
-        {
-          const commnet = await this.commentService.getComment(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
-          return { commnet }
-        }
-        throw new NotFoundException("comment not found");
+      
+        const commnet = await this.commentService.getComment(comDto);
+        return { commnet }
+        
     }
 
     @ApiTags('delete_comment')
     @UseGuards(OwnerGuard)
-    @Delete('comment_name')
+    @Delete(':comment_name')
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteComment(@Param() comDto: CommnetDto)
     {
-      const commentExisted = await this.commentService.commentExisted(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
-      if(commentExisted)
-        {
-          const deleted = await this.commentService.deleteCommentq(comDto.id, comDto.column_name, comDto.card_name, comDto.comment_name);
-          if(deleted)
-          {
-            return { message: 'Column deleted successfully' };
-          }
-          throw new BadRequestException("Delete error");
-        }
-        throw new NotFoundException("comment not found");
+      
+      return await this.commentService.deleteCommentq(comDto);     
     }
 }

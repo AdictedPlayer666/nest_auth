@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { Comments } from 'src/database/schema/comment.entity';
-import { UserDto } from 'src/auth/dto/user.dto';
+import { CardDto } from './dto/card.dto';
 
 @Injectable()
 export class CardService {
@@ -20,7 +20,7 @@ export class CardService {
         private readonly cardRepository: Repository<Cards>,
     ) {}
 
-    async createCard(user_id: uuidv4, card_name: string, column_name: string): Promise<boolean> {
+    async createCard(user_id: uuidv4, card_name: string, column_name: string): Promise<any> {
         
         const cardExisted = await this.cardExisted(user_id, column_name, card_name);
         if(cardExisted){
@@ -31,7 +31,10 @@ export class CardService {
         const column_id = column?.column_id;
         const newCard = this.cardRepository.create({ user_id, card_name, column_id });
         const createdCard = await this.cardRepository.save(newCard);
-        return !!createdCard;
+        if(createdCard){
+            return { message: 'Card created successfully' }; 
+        }
+        throw new BadRequestException("Create error");
     }
     async getCard(user_id: uuidv4, column_name: string, card_name: string): Promise<string> {
 
@@ -57,11 +60,18 @@ export class CardService {
         return !!card; 
     }
 
-    async deleteCard(user_id: uuidv4, column_name: string, card_name: string): Promise<boolean> {
-        const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
+    async deleteCard(cardDto: CardDto): Promise<any> {
+        const cardExisted = await this.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
+        if(!cardExisted){
+            throw new NotFoundException("card not founded");
+        }
+        const column = await this.columnRepository.findOne({ where: { user_id: cardDto.id, column_name: cardDto.column_name } });
         const column_id = column?.column_id;
 
-        const deletedColumn = await this.cardRepository.delete({ user_id, column_id, card_name });
-        return !!deletedColumn.affected;
+        const deletedColumn = await this.cardRepository.delete({ user_id: cardDto.id, column_id, card_name: cardDto.card_name });
+        if(!!deletedColumn.affected){
+            return { message: 'Card deleted successfully' };
+        }
+        throw new BadRequestException("Card was not deleted");
     }
 }

@@ -16,17 +16,12 @@ export class CardController {
     @UseGuards(OwnerGuard)
     @UsePipes(new ValidationPipe())
     async createCards(@Param('id') id: ColumnDto["id"], @Param('column_name') column_name: ColumnDto["column_name"] , @Body('card_name') card_name: string ) {
-      const created = await this.cardService.createCard(id, card_name, column_name);  
-      if (created) {
-        return { message: 'Card created successfully' };
-      }
-      throw new BadRequestException("Create error");
+      return await this.cardService.createCard(id, card_name, column_name);   
     }
 
 
     @ApiTags('get_card')
     @Get(':card_name')
-    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async getCards(@Param() cardDto: CardDto) {
       const card = await this.cardService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
@@ -37,19 +32,10 @@ export class CardController {
     @ApiTags('delete_card')
     @Delete(':card_name')
     @UseGuards(OwnerGuard)
-    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async deleteCard(@Param() cardDto: CardDto) {
-      const cardExisted = await this.cardService.cardExisted(cardDto.id, cardDto.column_name, cardDto.card_name);
-      if(cardExisted)
-        {
-          const deleteCard = await this.cardService.deleteCard(cardDto.id, cardDto.column_name, cardDto.card_name);
-          if(deleteCard)
-            {
-              return { message: 'Column deleted successfully' };
-            }
-            throw new BadRequestException("Card was not deleted");
-        }
-        throw new NotFoundException("card not founded");
+      
+      return await this.cardService.deleteCard(cardDto);
+    
     }
 }

@@ -30,7 +30,6 @@ export class ColumnController {
     async DeleteColumn(@Param() colDto: ColumnDto)
     {
       return await this.ColumnService.deleteColumn(colDto);
-
     }
 
     
@@ -40,10 +39,6 @@ export class ColumnController {
     // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async createColumn(@Param('id') id: ColumnDto["id"], @Body('column_name') column_name: ColumnDto["column_name"]) {
-      const created = await this.ColumnService.createColumn(id, column_name);  
-      if (created) {
-        return { message: 'Column created successfully' };
-      }
-      throw new BadRequestException("Create error");
+      return await this.ColumnService.createColumn(id, column_name);  
     }
 }

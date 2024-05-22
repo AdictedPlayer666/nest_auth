@@ -17,7 +17,7 @@ export class ColumnService {
 
 
   async GetColumnData(colDto: ColumnDto): Promise<string>{
-    const ExistColumn = await this.ExistedColumnData(colDto.id, colDto.column_name);
+    const ExistColumn = await this.ExistedColumnData(colDto);
     if(!ExistColumn)
       {
         throw new BadRequestException("Column not found");
@@ -27,7 +27,7 @@ export class ColumnService {
   }
 
   async deleteColumn(colDto: ColumnDto): Promise<any> {
-    const ExistColumn = await this.ExistedColumnData(colDto.id, colDto.column_name);
+    const ExistColumn = await this.ExistedColumnData(colDto);
     if(!ExistColumn)
       {
         throw new NotFoundException("Column not found");
@@ -41,14 +41,17 @@ export class ColumnService {
       throw new BadRequestException("Delete error");
   }
 
-  async ExistedColumnData(user_id: uuidv4, column_name: string): Promise<Boolean> {
-    const columnEx = await this.columnRepository.findOne({where: {user_id, column_name}});
+  async ExistedColumnData(colDto: ColumnDto): Promise<Boolean> {
+    const columnEx = await this.columnRepository.findOne({where: {user_id: colDto.id, column_name: colDto.column_name}});
     return !!columnEx;
   }
 
-  async createColumn(user_id: uuidv4, column_name: string): Promise<boolean> {
+  async createColumn(user_id: uuidv4, column_name: string): Promise<any> {
     const newColumn = this.columnRepository.create({ user_id, column_name });
     const createdColumn = await this.columnRepository.save(newColumn);
-    return !!createdColumn;
+    if (createdColumn) {
+        return { message: 'Column created successfully' };
+      }
+      throw new BadRequestException("Create error");
   }
 }
