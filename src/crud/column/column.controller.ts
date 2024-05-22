@@ -1,10 +1,10 @@
-import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Controller, Body,  Get, Put,  Post, Delete, Param, Header, BadRequestException, NotFoundException, UseGuards, UsePipes } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
-import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ColumnDto } from './dto/column.dto';
 import { ColumnService } from './column.service';
 import { OwnerGuard } from 'src/auth/guards/owner.guard';
+import { col } from 'sequelize';
 
 @Controller('user/:id/columns/')
 export class ColumnController {
@@ -36,9 +36,16 @@ export class ColumnController {
     @ApiTags('create_column')
     @Post('add')  
     @UseGuards(OwnerGuard)
-    // @UseGuards(ColumnGuard)
     @UsePipes(new ValidationPipe())
     async createColumn(@Param('id') id: ColumnDto["id"], @Body('column_name') column_name: ColumnDto["column_name"]) {
       return await this.ColumnService.createColumn(id, column_name);  
     }
-}
+
+    @ApiTags('update_column')
+    @Put(':column_name')
+    @UseGuards(OwnerGuard)
+    @UsePipes(new ValidationPipe())
+    async updateColumn(@Param() colDto: ColumnDto, @Body('new_name') new_name: string)  {
+      return await this.ColumnService.updateColumn(colDto, new_name);  
+    }
+  }

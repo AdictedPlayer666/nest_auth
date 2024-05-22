@@ -74,4 +74,13 @@ export class CardService {
         }
         throw new BadRequestException("Card was not deleted");
     }
+    async updateCard(cardDto: CardDto, new_name: string)
+    {
+        const column = await this.columnRepository.findOne({ where: { user_id: cardDto.id, column_name: cardDto.column_name } });
+        const column_id = column?.column_id;
+        const card = await this.cardRepository.findOne({ where: { user_id: cardDto.id, column_id, card_name: cardDto.card_name} });
+        card.card_name = new_name;
+        await this.cardRepository.save(card);
+        return true;
+    }
 }

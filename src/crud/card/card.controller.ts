@@ -1,4 +1,4 @@
-import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Controller, Body, Put,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -11,6 +11,7 @@ export class CardController {
     constructor(
       private readonly cardService: CardService,
     ) {}
+
     @ApiTags('create_card')
     @Post('add')
     @UseGuards(OwnerGuard)
@@ -34,8 +35,14 @@ export class CardController {
     @UseGuards(OwnerGuard)
     @UsePipes(new ValidationPipe())
     async deleteCard(@Param() cardDto: CardDto) {
-      
       return await this.cardService.deleteCard(cardDto);
-    
+    }
+
+    @ApiTags('update_card')
+    @Put(':card_name')
+    @UseGuards(OwnerGuard)
+    @UsePipes(new ValidationPipe())
+    async updateCards(@Param() cardDto: CardDto, @Body('new_name') new_name: string) {
+      return await this.cardService.updateCard(cardDto, new_name);   
     }
 }

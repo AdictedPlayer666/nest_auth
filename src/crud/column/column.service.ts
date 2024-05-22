@@ -54,4 +54,11 @@ export class ColumnService {
       }
       throw new BadRequestException("Create error");
   }
+  async updateColumn(colDto: ColumnDto, new_name: string)
+  {
+    const columnEx = await this.columnRepository.findOne({where: {user_id: colDto.id, column_name: colDto.column_name}});
+    columnEx.column_name = new_name;
+    await this.columnRepository.save(columnEx);
+    return true;
+  }
 }

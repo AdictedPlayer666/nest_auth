@@ -29,6 +29,6 @@ import { CommentsService } from 'src/crud/comments/comments.service';
   ],
   controllers: [AuthController],
   exports: [JwtAuthService, JwtModule],
-  providers: [JwtAuthService, UserService, JwtStrategy, CommentsService]
+  providers: [JwtAuthService, UserService, JwtStrategy]
 })
 export class AuthModule {}

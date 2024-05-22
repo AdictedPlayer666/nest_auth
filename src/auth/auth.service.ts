@@ -31,12 +31,11 @@ export class JwtAuthService {
 
       if (!user) {
         return false;
-      } else {
-        return true;
-      }
+      } 
     } catch (error) {
       return false;
     }
+    return true;
   }
 
   
