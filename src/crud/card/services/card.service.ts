@@ -1,12 +1,12 @@
 
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Users } from '../../database/schema/user.entity'; 
+import { Users } from '../../../database/schema/user.entity'; 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
-import { CardDto } from './dto/card.dto';
+import { CardDto } from '../dto/card.dto';
 
 @Injectable()
 export class CardService {

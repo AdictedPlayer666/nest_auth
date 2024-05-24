@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { Users } from '../database/schema/user.entity';
+import { Users } from '../../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserDto } from './dto/user.dto';
-import { UserService } from 'src/crud/user/user.service';
+import { UserDto } from '../dto/user.dto';
+import { UserService } from 'src/crud/user/services/user.service';
 
 @Injectable()
 export class JwtAuthService {

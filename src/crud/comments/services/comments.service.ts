@@ -1,6 +1,6 @@
 
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Users } from '../../database/schema/user.entity'; 
+import { Users } from '../../../database/schema/user.entity'; 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +8,7 @@ import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { Comments } from 'src/database/schema/comment.entity';
 import { UserDto } from 'src/auth/dto/user.dto';
-import { CommnetDto } from './dto/comment.dto';
+import { CommnetDto } from './../dto/comment.dto';
 
 @Injectable()
 export class CommentsService {

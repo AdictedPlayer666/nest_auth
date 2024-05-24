@@ -1,8 +1,8 @@
 import { Controller, Body,  Get, Put,  Post, Delete, Param, Header, BadRequestException, NotFoundException, UseGuards, UsePipes } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ColumnDto } from './dto/column.dto';
-import { ColumnService } from './column.service';
+import { ColumnDto } from '../dto/column.dto';
+import { ColumnService } from '../services/column.service';
 import { OwnerGuard } from 'src/auth/guards/owner.guard';
 import { col } from 'sequelize';
 

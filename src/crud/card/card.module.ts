@@ -5,10 +5,10 @@ import { Users } from '../../database/schema/user.entity';
 import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { Comments } from 'src/database/schema/comment.entity';
-import { CardController } from './card.controller';
-import { UserService } from '../user/user.service';
-import { CardService } from './card.service';
-import { JwtAuthService } from 'src/auth/auth.service';
+import { CardController } from './controllers/card.controller';
+import { UserService } from '../user/services/user.service';
+import { CardService } from './services/card.service';
+import { JwtAuthService } from 'src/auth/services/auth.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

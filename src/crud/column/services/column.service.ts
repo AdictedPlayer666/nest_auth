@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Users } from '../../database/schema/user.entity'; 
+import { Users } from '../../../database/schema/user.entity'; 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Columns } from 'src/database/schema/column.entity';
-import { ColumnDto } from './dto/column.dto';
+import { ColumnDto } from '../dto/column.dto';
 
 @Injectable()
 export class ColumnService {

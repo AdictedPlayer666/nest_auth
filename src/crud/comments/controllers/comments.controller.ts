@@ -2,9 +2,9 @@ import { Controller, Body, Put,  Get, Post, Delete, Param, Header, UseGuards, Ba
 import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CommnetDto } from './dto/comment.dto';
-import { CommentsService } from './comments.service';
-import { OwnerGuard } from '../../auth/guards/owner.guard';
+import { CommnetDto } from '../dto/comment.dto';
+import { CommentsService } from '.././services/comments.service';
+import { OwnerGuard } from '../../../auth/guards/owner.guard';
 
 @Controller('user/:id/columns/:column_name/cards/:card_name/comments/')
 export class CommentsController {

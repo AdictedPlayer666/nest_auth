@@ -2,9 +2,9 @@ import { Controller, Body, Put,  Get, Post, Delete, Param, Header, UseGuards, Ba
 import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ColumnDto } from '../column/dto/column.dto';
-import { CardDto } from './dto/card.dto';
-import { CardService } from './card.service';
+import { ColumnDto } from '../../column/dto/column.dto';
+import { CardDto } from '../dto/card.dto';
+import { CardService } from '../services/card.service';
 import { OwnerGuard } from 'src/auth/guards/owner.guard';
 @Controller('user/:id/columns/:column_name/cards/')
 export class CardController {

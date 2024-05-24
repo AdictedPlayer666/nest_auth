@@ -1,6 +1,6 @@
 import { Controller, Body,  Get, Post, Delete, Param, Header, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
-import { UserService } from './user.service';
-import { IdDto } from './dto/id.dto';
+import { UserService } from '../services/user.service';
+import { IdDto } from '../dto/id.dto';
 import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';

@@ -2,7 +2,7 @@ import { Injectable, ExecutionContext, UnauthorizedException, CanActivate, Forbi
 import { AuthGuard as NestAuthGuard } from '@nestjs/passport';
 import * as jwt from 'jsonwebtoken';
 import jwt_key from '../../config/jwt_key'
-import { JwtAuthService } from 'src/auth/auth.service';
+import { JwtAuthService } from 'src/auth/services/auth.service';
 import { UUID } from 'crypto';
 import { JwtService } from "@nestjs/jwt";
 
