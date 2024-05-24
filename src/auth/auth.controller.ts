@@ -19,8 +19,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   async login(@Body() authDto: UserDto) {
    
-    const token = await this.authService.signPayload(authDto);
-    return { token };
+    return await this.authService.signPayload(authDto);
 
     throw new UnauthorizedException('Invalid credentials');
   }

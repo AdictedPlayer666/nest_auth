@@ -17,15 +17,16 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async id_get(@Param() indDto: IdDto) {
       
-      const user_data = await this.userService.getUser(indDto.id);
-      return { user_data };
+      return await this.userService.getUser(indDto.id);
         
     }
     @ApiTags('Get_allUsers')
     @Get('all')
     @UsePipes(new ValidationPipe())
     async get_allUser(){
+
       return await this.userService.getAll();
+      
     }
 
 }

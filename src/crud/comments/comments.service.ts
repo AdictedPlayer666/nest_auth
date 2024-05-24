@@ -59,7 +59,7 @@ export class CommentsService {
       return JSON.stringify(comments);
   }
 
-  async createComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<boolean> {
+  async createComment(user_id: uuidv4, column_name: string, card_name: string, comment_name: string): Promise<any> {
 
     const column = await this.columnRepository.findOne({ where: { user_id, column_name } });
     const column_id = column?.column_id;
@@ -69,8 +69,12 @@ export class CommentsService {
     if(!column_id) return false;
     const newComment = this.commentRepository.create({ user_id, card_id, column_id, comment_name });
     const createdComment = await this.commentRepository.save(newComment);
-
-    return !!createdComment;
+    if(!createdComment){
+      throw new BadRequestException("Failed create comment!");
+    }
+    else{
+      return { message: 'Comment created successfully' };
+    }
 }
 
     async deleteCommentq(comDto: CommnetDto): Promise<any> {

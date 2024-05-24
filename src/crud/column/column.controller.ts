@@ -18,8 +18,7 @@ export class ColumnController {
     @UsePipes(new ValidationPipe())
     async findUserColumns(@Param() colDto: ColumnDto) {
       
-      const column_data = await this.ColumnService.GetColumnData(colDto);
-      return { column_data }
+      return await this.ColumnService.GetColumnData(colDto);
 
     }
 

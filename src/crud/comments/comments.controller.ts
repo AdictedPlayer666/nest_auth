@@ -22,11 +22,7 @@ export class CommentsController {
       @Param('card_name') card_name: CommnetDto["card_name"],
       @Body('comment_name') comment_name: CommnetDto["comment_name"] ){
 
-        const created = await this.commentService.createComment(id, column_name, card_name, comment_name);
-        if (created) {
-          return { message: 'Comment created successfully' };
-        }
-        throw new BadRequestException("Create error");
+        return await this.commentService.createComment(id, column_name, card_name, comment_name);
     }
 
     @ApiTags('get_comment')
@@ -34,8 +30,7 @@ export class CommentsController {
     @UsePipes(new ValidationPipe())
     async getComment(@Param() comDto: CommnetDto){
       
-        const commnet = await this.commentService.getComment(comDto);
-        return { commnet }
+        return await this.commentService.getComment(comDto);
         
     }
 

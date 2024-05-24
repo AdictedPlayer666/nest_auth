@@ -46,7 +46,8 @@ export class JwtAuthService {
     if(!isValidUser){
       throw new BadRequestException("Err");
     }
-    return this.jwtService.sign(userDto.username);
+    const payload = { username: userDto.username};
+    return this.jwtService.sign(payload);
   }
   
 }
