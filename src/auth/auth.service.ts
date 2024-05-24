@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { Users } from '../database/schema/user.entity';
@@ -41,8 +41,12 @@ export class JwtAuthService {
   
 
 
-  async signPayload(payload: any): Promise<string> {
-    return this.jwtService.sign(payload);
+  async signPayload(userDto: UserDto): Promise<any> {
+    const isValidUser = await this.UserService.validateUser(userDto);
+    if(!isValidUser){
+      throw new BadRequestException("Err");
+    }
+    return this.jwtService.sign(userDto.username);
   }
   
 }

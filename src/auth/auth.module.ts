@@ -14,6 +14,7 @@ import { Comments } from 'src/database/schema/comment.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { JwtStrategy } from './auth.strategy';
 import { CommentsService } from 'src/crud/comments/comments.service';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CommentsService } from 'src/crud/comments/comments.service';
         signOptions: { expiresIn: '1h' },
       }),
     }),
+    PassportModule.register({defaultStrategy: 'jwt'}),
     DatabaseModule,
     TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
     

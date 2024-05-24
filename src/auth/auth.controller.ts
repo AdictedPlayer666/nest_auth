@@ -19,13 +19,8 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   async login(@Body() authDto: UserDto) {
    
-    const isValidUser = await this.UserService.validateUser(authDto);
-    
-   
-    if (isValidUser) {
-      const token = await this.authService.signPayload({ username: authDto.username });
-      return { token };
-    }
+    const token = await this.authService.signPayload(authDto);
+    return { token };
 
     throw new UnauthorizedException('Invalid credentials');
   }
@@ -38,7 +33,7 @@ export class AuthController {
       const newUser = await this.UserService.createUser(userDto); 
       if(newUser)
         {
-          const token = await this.authService.signPayload({ username: userDto.username, password: userDto.password });
+          const token = await this.authService.signPayload(userDto);
           return { token };
         }
     }
