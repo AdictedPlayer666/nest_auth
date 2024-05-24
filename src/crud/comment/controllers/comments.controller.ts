@@ -3,7 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CommnetDto } from '../dto/comment.dto';
-import { CommentsService } from '.././services/comments.service';
+import { CommentsService } from '../services/comments.service';
 import { OwnerGuard } from '../../../auth/guards/owner.guard';
 
 @Controller('user/:id/columns/:column_name/cards/:card_name/comments/')

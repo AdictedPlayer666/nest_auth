@@ -8,7 +8,7 @@ import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { Comments } from 'src/database/schema/comment.entity';
 import { UserDto } from 'src/auth/dto/user.dto';
-import { CommnetDto } from './../dto/comment.dto';
+import { CommnetDto } from '../dto/comment.dto';
 
 @Injectable()
 export class CommentsService {
