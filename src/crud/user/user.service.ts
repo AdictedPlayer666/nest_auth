@@ -21,6 +21,10 @@ export class UserService {
     private readonly commentRepository: Repository<Comments>,
   ) {}
 
+  async getAll(){
+      return await this.userRepository.find();
+  }
+
   async getUser(user_id: uuidv4): Promise<string> {
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (user) { 

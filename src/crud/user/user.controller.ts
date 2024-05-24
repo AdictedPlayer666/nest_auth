@@ -21,5 +21,11 @@ export class UserController {
       return { user_data };
         
     }
+    @ApiTags('Get_allUsers')
+    @Get('all')
+    @UsePipes(new ValidationPipe())
+    async get_allUser(){
+      return await this.userService.getAll();
+    }
 
 }
