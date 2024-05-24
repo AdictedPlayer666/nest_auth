@@ -30,10 +30,6 @@ export class AuthController {
   async register(@Body() userDto: UserDto) 
   {
       const newUser = await this.UserService.createUser(userDto); 
-      if(!newUser){
-        throw new BadRequestException("Cannot create user");
-      }
-      const token = await this.authService.signPayload(userDto);
-      return { token };
-    }
+      return await this.authService.signPayload(userDto);;
+  }
 }

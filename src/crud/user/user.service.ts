@@ -49,7 +49,11 @@ export class UserService {
     try {
       const newUser = await this.userRepository.create(userDto);
       await this.userRepository.save(newUser);
-      return newUser;
+      
+      if(newUser){
+        return "User created";
+      }
+      
     } catch (error) {
       throw new Error('User registration failed: ' + error.message);
     }

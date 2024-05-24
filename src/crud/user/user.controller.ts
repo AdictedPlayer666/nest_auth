@@ -12,14 +12,6 @@ export class UserController {
 
     ) {}
 
-    @ApiTags('get_user')
-    @Get(':id')
-    @UsePipes(new ValidationPipe())
-    async id_get(@Param() indDto: IdDto) {
-      
-      return await this.userService.getUser(indDto.id);
-        
-    }
     @ApiTags('Get_allUsers')
     @Get('all')
     @UsePipes(new ValidationPipe())
@@ -27,6 +19,15 @@ export class UserController {
 
       return await this.userService.getAll();
       
+    }
+    
+    @ApiTags('get_user')
+    @Get(':id')
+    @UsePipes(new ValidationPipe())
+    async id_get(@Param() indDto: IdDto) {
+      
+      return await this.userService.getUser(indDto.id);
+        
     }
 
 }
