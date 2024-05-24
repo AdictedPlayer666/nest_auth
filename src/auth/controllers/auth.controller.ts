@@ -29,6 +29,6 @@ export class AuthController {
   async register(@Body() userDto: UserDto) 
   {
       const newUser = await this.UserService.createUser(userDto); 
-      return await this.authService.signPayload(userDto);;
+      return await this.authService.signPayload(userDto);
   }
 }

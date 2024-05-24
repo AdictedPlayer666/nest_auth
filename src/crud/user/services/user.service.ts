@@ -51,7 +51,7 @@ export class UserService {
       await this.userRepository.save(newUser);
       
       if(newUser){
-        return "User created";
+        return newUser;
       }
       
     } catch (error) {

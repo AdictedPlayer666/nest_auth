@@ -18,11 +18,10 @@ import { JwtService } from '@nestjs/jwt';
     TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
   ],
   providers: [
-    UserService, // Ensure UserService is provided
+    UserService, 
     CardService,
     JwtAuthService, 
     JwtService,
-    // Any other necessary providers
   ],
 })
 export class CardModule {}
