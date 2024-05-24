@@ -5,6 +5,7 @@ import jwt_key from '../../config/jwt_key'
 import { JwtAuthService } from 'src/auth/services/auth.service';
 import { UUID } from 'crypto';
 import { JwtService } from "@nestjs/jwt";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class OwnerGuard implements CanActivate   {
@@ -21,11 +22,11 @@ export class OwnerGuard implements CanActivate   {
 
 
     try { 
-      const user_id: number = +request.params.id;
+      const user_id: uuidv4 = request.params.id;
        if (!request.headers.authorization) {
         throw new UnauthorizedException('Authorization header is missing');
-      }
-
+      } 
+      
       const authHeaderParts = request.headers.authorization.split(' ');
 
       if (authHeaderParts.length !== 2 || authHeaderParts[0] !== 'Bearer') {
@@ -33,15 +34,15 @@ export class OwnerGuard implements CanActivate   {
       }
 
       const token: string = authHeaderParts[1];
-      const user = this.jwtService.verify(token, {secret: secretKey});
+      const decoded = this.jwtService.verify(token, {secret: secretKey});
 
-      const isValid = await this.JwtAuthService.validateUser(user);
-
+      const isValid = await this.JwtAuthService.validateUser2(decoded.username, user_id);
+2
       if(isValid)
         {
           return true;
         }
-        throw new ForbiddenException(user);
+        throw new ForbiddenException("Premission denied");
     
     } catch (err) {
         throw new UnauthorizedException(err);

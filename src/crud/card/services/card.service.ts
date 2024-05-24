@@ -80,6 +80,6 @@ export class CardService {
         const card = await this.cardRepository.findOne({ where: { user_id: cardDto.id, column_id, card_name: cardDto.card_name} });
         card.card_name = new_name;
         await this.cardRepository.save(card);
-        return true;
+        return "Card updated";
     }
 }

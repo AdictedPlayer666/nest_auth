@@ -5,6 +5,7 @@ import { Users } from '../../database/schema/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from '../dto/user.dto';
 import { UserService } from 'src/crud/user/services/user.service';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class JwtAuthService {
@@ -15,7 +16,15 @@ export class JwtAuthService {
     private readonly UserService: UserService,
   ) {}
 
-  
+  async validateUser2(username1: string, user_id: UUID)
+  {
+    const user = await this.userRepository.findOne({ where: { username: username1, user_id: user_id} });
+    if (!user) {
+      return false;
+    }
+    return true;
+  }
+
   async validateUser(authdto: UserDto)
   {
     const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password} });
@@ -24,6 +33,7 @@ export class JwtAuthService {
     }
     return true;
   }
+  
   async validateToken(token: string): Promise<boolean> {
     try {
       const decoded = await this.jwtService.verify(token);
