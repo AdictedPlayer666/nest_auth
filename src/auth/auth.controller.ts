@@ -21,7 +21,6 @@ export class AuthController {
    
     return await this.authService.signPayload(authDto);
 
-    throw new UnauthorizedException('Invalid credentials');
   }
 
   @ApiTags('register_user')

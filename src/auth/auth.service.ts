@@ -48,6 +48,7 @@ export class JwtAuthService {
     }
     const payload = { username: userDto.username};
     return this.jwtService.sign(payload);
+    throw new UnauthorizedException('Invalid credentials');
   }
   
 }
