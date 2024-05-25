@@ -25,7 +25,7 @@ export class CardController {
   @Get(':card_name')
   @UsePipes(new ValidationPipe())
   async getCards(@Param() cardDto: CardDto) {
-    return await this.cardService.getCard(cardDto.id, cardDto.column_name, cardDto.card_name);
+    return await this.cardService.getCard(cardDto);
   }
 
 
