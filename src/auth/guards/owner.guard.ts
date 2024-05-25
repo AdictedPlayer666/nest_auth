@@ -8,25 +8,25 @@ import { JwtService } from "@nestjs/jwt";
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
-export class OwnerGuard implements CanActivate   {
+export class OwnerGuard implements CanActivate {
 
   constructor(
     private readonly JwtAuthService: JwtAuthService,
     private readonly jwtService: JwtService,
 
-  ){}
+  ) { }
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    
+
     const secretKey = jwt_key().secretKey;
 
 
-    try { 
+    try {
       const user_id: uuidv4 = request.params.id;
-       if (!request.headers.authorization) {
+      if (!request.headers.authorization) {
         throw new UnauthorizedException('Authorization header is missing');
-      } 
-      
+      }
+
       const authHeaderParts = request.headers.authorization.split(' ');
 
       if (authHeaderParts.length !== 2 || authHeaderParts[0] !== 'Bearer') {
@@ -34,18 +34,17 @@ export class OwnerGuard implements CanActivate   {
       }
 
       const token: string = authHeaderParts[1];
-      const decoded = this.jwtService.verify(token, {secret: secretKey});
+      const decoded = this.jwtService.verify(token, { secret: secretKey });
 
       const isValid = await this.JwtAuthService.validateUser2(decoded.username, user_id);
-2
-      if(isValid)
-        {
-          return true;
-        }
-        throw new ForbiddenException("Premission denied");
-    
+      2
+      if (isValid) {
+        return true;
+      }
+      throw new ForbiddenException("Premission denied");
+
     } catch (err) {
-        throw new UnauthorizedException(err);
+      throw new UnauthorizedException(err);
     }
   }
 }

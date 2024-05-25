@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from '../../database/schema/user.entity'; 
+import { Users } from '../../database/schema/user.entity';
 import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity'; // Import Cards entity
 import { Comments } from 'src/database/schema/comment.entity'; // Import Comments entity
@@ -15,8 +15,8 @@ import { ColumnService } from './services/column.service';
 @Module({
   controllers: [ColumnController],
   imports: [
-      DatabaseModule,
-      TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
+    DatabaseModule,
+    TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
   ],
   providers: [
     ColumnService,
@@ -24,7 +24,7 @@ import { ColumnService } from './services/column.service';
     Repository,
     UserService,
     JwtAuthService,
-   
+
   ],
 })
-export class ColumnModule {}
+export class ColumnModule { }

@@ -5,7 +5,7 @@ import { CardModule } from './card/card.module';
 import { CommentsModule } from './comment/comments.module';
 
 @Module({
-    
+
 
   imports: [UserModule, ColumnModule, CardModule, CommentsModule]
 })

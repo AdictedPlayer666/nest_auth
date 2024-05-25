@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from '../../database/schema/user.entity'; 
+import { Users } from '../../database/schema/user.entity';
 import { Columns } from 'src/database/schema/column.entity';
 import { Cards } from 'src/database/schema/card.entity';
 import { Comments } from 'src/database/schema/comment.entity';
@@ -19,4 +19,4 @@ import { JwtService } from '@nestjs/jwt';  // Import JwtService
   ],
   providers: [UserService, CommentsService, JwtAuthService, JwtService],  // Provide JwtService here
 })
-export class CommentsModule {}
+export class CommentsModule { }

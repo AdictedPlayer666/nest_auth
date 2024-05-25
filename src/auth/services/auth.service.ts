@@ -11,29 +11,27 @@ import { UUID } from 'crypto';
 export class JwtAuthService {
   constructor(
     private readonly jwtService: JwtService,
-    @InjectRepository(Users)  
+    @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
     private readonly UserService: UserService,
-  ) {}
+  ) { }
 
-  async validateUser2(username1: string, user_id: UUID)
-  {
-    const user = await this.userRepository.findOne({ where: { username: username1, user_id: user_id} });
+  async validateUser2(username1: string, user_id: UUID) {
+    const user = await this.userRepository.findOne({ where: { username: username1, user_id: user_id } });
     if (!user) {
       return false;
     }
     return true;
   }
 
-  async validateUser(authdto: UserDto)
-  {
-    const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password} });
+  async validateUser(authdto: UserDto) {
+    const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password } });
     if (!user) {
       return false;
     }
     return true;
   }
-  
+
   async validateToken(token: string): Promise<boolean> {
     try {
       const decoded = await this.jwtService.verify(token);
@@ -41,24 +39,24 @@ export class JwtAuthService {
 
       if (!user) {
         return false;
-      } 
+      }
     } catch (error) {
       return false;
     }
     return true;
   }
 
-  
+
 
 
   async signPayload(userDto: UserDto): Promise<any> {
     const isValidUser = await this.UserService.validateUser(userDto);
-    if(!isValidUser){
+    if (!isValidUser) {
       throw new BadRequestException("Err");
     }
-    const payload = { username: userDto.username};
+    const payload = { username: userDto.username };
     return this.jwtService.sign(payload);
     throw new UnauthorizedException('Invalid credentials');
   }
-  
+
 }

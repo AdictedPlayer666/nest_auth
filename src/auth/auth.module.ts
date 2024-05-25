@@ -24,13 +24,13 @@ import { PassportModule } from '@nestjs/passport';
         signOptions: { expiresIn: '1h' },
       }),
     }),
-    PassportModule.register({defaultStrategy: 'jwt'}),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     DatabaseModule,
     TypeOrmModule.forFeature([Users, Columns, Cards, Comments]),
-    
+
   ],
   controllers: [AuthController],
   exports: [JwtAuthService, JwtModule],
   providers: [JwtAuthService, UserService, JwtStrategy]
 })
-export class AuthModule {}
+export class AuthModule { }
