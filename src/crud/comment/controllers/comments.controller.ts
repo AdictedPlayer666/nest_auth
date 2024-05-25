@@ -26,6 +26,7 @@ export class CommentsController {
   }
 
   @ApiTags('get_comment')
+  @UseGuards(OwnerGuard)
   @Get(':comment_name')
   @UsePipes(new ValidationPipe())
   async getComment(@Param() comDto: CommnetDto) {

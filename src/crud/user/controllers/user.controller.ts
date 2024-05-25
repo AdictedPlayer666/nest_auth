@@ -13,6 +13,7 @@ export class UserController {
     ) {}
 
     @ApiTags('Get_allUsers')
+    
     @Get('all')
     @UsePipes(new ValidationPipe())
     async get_allUser(){

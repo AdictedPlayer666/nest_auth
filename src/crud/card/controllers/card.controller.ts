@@ -22,6 +22,7 @@ export class CardController {
 
 
   @ApiTags('get_card')
+  @UseGuards(OwnerGuard)
   @Get(':card_name')
   @UsePipes(new ValidationPipe())
   async getCards(@Param() cardDto: CardDto) {
