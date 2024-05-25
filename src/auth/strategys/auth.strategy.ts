@@ -4,6 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtAuthService } from '../services/auth.service';
 import { UserDto } from '../dto/user.dto';
 import jwt_key from '../../config/jwt_key'
+import { Any } from 'typeorm';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,6 +21,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Invalid token');
     }
     return user;
+  }
+  async Decode(payload: any){
+   // return payload.this.jwtService.verify(payload);
   }
 
   
