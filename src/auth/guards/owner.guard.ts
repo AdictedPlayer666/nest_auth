@@ -37,7 +37,6 @@ export class OwnerGuard implements CanActivate {
       }
 
       const token: string = authHeaderParts[1];
-      // const decoded = this.jwtService.verify(token, { secret: secretKey });
       const decoded = this.jwtService.verify(token, { secret: secretKey });
       const isValid = await this.JwtAuthService.validateUser2(decoded.username, user_id);
       
