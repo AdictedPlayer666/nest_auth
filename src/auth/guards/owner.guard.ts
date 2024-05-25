@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class OwnerGuard implements CanActivate {
 
   constructor(
+    
     private readonly JwtAuthService: JwtAuthService,
     private readonly jwtService: JwtService,
 
@@ -22,7 +23,6 @@ export class OwnerGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const secretKey = jwt_key().secretKey;
-
 
     try {
       const user_id: uuidv4 = request.params.id;

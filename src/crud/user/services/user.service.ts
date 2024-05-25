@@ -32,6 +32,7 @@ export class UserService {
     } 
     throw new NotFoundException("User not found");
   }
+  
   async validateUser(userDto: UserDto): Promise<boolean> {
     if (!this.userRepository) {
       throw new Error('userRepository is not defined or is undefined');
@@ -40,6 +41,7 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { username: userDto.username, password: userDto.password } });
     return !!user; 
   }
+
   async createUser(userDto: UserDto): Promise<any> {
 
     const user_exist = await this.validateUser(userDto);
@@ -58,14 +60,4 @@ export class UserService {
       throw new Error('User registration failed: ' + error.message);
     }
   }
-
-  async ExistedUser(user_id: uuidv4): Promise<boolean> {
-    if (!this.userRepository) {
-      throw new Error('userRepository is not defined or is undefined');
-    }
-
-    const user = await this.userRepository.findOne({ where: { user_id } });
-    return !!user; 
-  }
-
 }

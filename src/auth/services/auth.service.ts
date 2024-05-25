@@ -24,14 +24,6 @@ export class JwtAuthService {
     return true;
   }
 
-  async validateUser(authdto: UserDto) {
-    const user = await this.userRepository.findOne({ where: { username: authdto.username, password: authdto.password } });
-    if (!user) {
-      return false;
-    }
-    return true;
-  }
-
   async validateToken(token: string): Promise<boolean> {
     try {
       const decoded = await this.jwtService.verify(token);
