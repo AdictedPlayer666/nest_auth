@@ -7,6 +7,7 @@ import { UUID } from 'crypto';
 import { JwtService } from "@nestjs/jwt";
 import { v4 as uuidv4 } from 'uuid';
 
+
 @Injectable()
 export class OwnerGuard implements CanActivate {
 
@@ -15,6 +16,8 @@ export class OwnerGuard implements CanActivate {
     private readonly jwtService: JwtService,
 
   ) { }
+
+  
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
@@ -34,10 +37,10 @@ export class OwnerGuard implements CanActivate {
       }
 
       const token: string = authHeaderParts[1];
+      // const decoded = this.jwtService.verify(token, { secret: secretKey });
       const decoded = this.jwtService.verify(token, { secret: secretKey });
-
       const isValid = await this.JwtAuthService.validateUser2(decoded.username, user_id);
-      2
+      
       if (isValid) {
         return true;
       }
